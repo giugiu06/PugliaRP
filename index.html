@@ -6,6 +6,20 @@
     <title>Puglia RP - Emergency Hamburg</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+
+    <!-- Open Graph Meta Tags for Sharing Preview -->
+    <meta property="og:title" content="PugliaRP 🇮🇹 - Il miglior server roleplay di Emergency Hamburg italiano!">
+    <meta property="og:description" content="Unisciti alla nostra comunità e vivi avventure emozionanti nel miglior server di Emergency Hamburg Roleplay in Italia!">
+    <meta property="og:image" content="https://placehold.co/1200x800/6aa6b9/000000?text=Puglia+RP+imagine+esempio+da+cambiare">
+    <meta property="og:url" content="https://pugliarp.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="it_IT">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PugliaRP 🇮🇹 - Il miglior server roleplay di Emergency Hamburg italiano!">
+    <meta name="twitter:description" content="Unisciti alla nostra comunità e vivi avventure emozionanti nel miglior server di Emergency Hamburg Roleplay in Italia!">
+    <meta name="twitter:image" content="https://placehold.co/1200x800/6aa6b9/000000?text=Puglia+RP+imagine+esempio+da+cambiare">
+
     <style>
         :root {
             --bg-overlay: rgba(255, 255, 255, 0.25);
@@ -18,6 +32,7 @@
             --light-button-hover-bg: rgba(208, 208, 208, 0.8);
             --light-blue-button-bg: #3B82F6;
             --light-blue-button-hover-bg: #2563EB;
+            --light-mobile-menu-bg: #F5F5F5; /* Sfondo solido per menu mobile chiaro */
         }
 
         .dark-theme {
@@ -30,6 +45,7 @@
             --dark-button-hover-bg: rgba(90, 90, 90, 0.8);
             --dark-blue-button-bg: #60A5FA;
             --dark-blue-button-hover-bg: #3B82F6;
+            --dark-mobile-menu-bg: #292828; /* Sfondo solido per menu mobile scuro */
         }
 
         body {
@@ -74,26 +90,108 @@
             color: var(--dark-text);
         }
 
-        .nav-link-light, .nav-link-dark {
+        /* Stili per la linea sotto il testo (desktop e mobile) */
+        .nav-link-light, .nav-link-dark, .mobile-nav-link-light, .mobile-nav-link-dark {
             position: relative;
             overflow: hidden;
             padding-bottom: 4px;
         }
 
-        .nav-link-light::after, .nav-link-dark::after {
+        .nav-link-light::after, .nav-link-dark::after,
+        .mobile-nav-link-light::after, .mobile-nav-link-dark::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #6aa6b9;
+            background-color: #6aa6b9; /* Colore highlight */
             transition: width 0.3s ease-in-out;
         }
 
         .nav-link-light:hover::after, .nav-link-dark:hover::after,
-        .nav-link-light.active::after, .nav-link-dark.active::after {
+        .nav-link-light.active::after, .nav-link-dark.active::after,
+        .mobile-nav-link-light:hover::after, .mobile-nav-link-dark:hover::after,
+        .mobile-nav-link-light.active::after, .mobile-nav-link-dark.active::after {
             width: 100%;
+        }
+
+        /* Stili per il menu mobile */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 90%; /* Quasi tutto lo schermo */
+            max-width: 300px; /* Limite per schermi più grandi */
+            height: 100%;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 50;
+            padding-top: 4rem;
+            box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra orizzontalmente le voci */
+            padding-left: 0.5rem; /* Ridotto per centrare meglio */
+            padding-right: 0.5rem;
+            border-radius: 0.75rem 0 0 0.75rem; /* Arrotonda solo i bordi sinistri */
+        }
+
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        #mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+            display: none;
+        }
+
+        #mobile-menu-overlay.open {
+            display: block;
+        }
+
+        .mobile-nav-link {
+            width: calc(100% - 1rem); /* Prende quasi tutta la larghezza con padding */
+            padding: 1rem; /* Padding uniforme */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centra il contenuto del link */
+            gap: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            border-radius: 0.5rem; /* Bordi arrotondati per le voci */
+            margin-bottom: 0.5rem; /* Spazio tra le voci */
+        }
+
+        .mobile-nav-link-light {
+            color: var(--light-text);
+            background-color: var(--light-mobile-menu-bg);
+        }
+        .mobile-nav-link-light:hover {
+            background-color: var(--light-nav-hover-bg);
+        }
+        .mobile-nav-link-light.active {
+            background-color: var(--light-nav-active-bg);
+            color: #1A202C;
+        }
+
+        .mobile-nav-link-dark {
+            color: var(--dark-text);
+            background-color: var(--dark-mobile-menu-bg);
+        }
+        .mobile-nav-link-dark:hover {
+            background-color: var(--dark-nav-hover-bg);
+        }
+        .mobile-nav-link-dark.active {
+            background-color: var(--dark-nav-active-bg);
+            color: #F8F8F8;
         }
     </style>
 </head>
@@ -101,8 +199,19 @@
 
     <header class="py-4 shadow-md header-light">
         <nav class="container mx-auto px-4 flex justify-between items-center">
-            <div class="text-2xl font-bold">🇮🇹 Puglia RP 🇮🇹</div>
-            <div class="flex space-x-4">
+            <div class="text-2xl font-bold">Puglia RP</div>
+            
+            <!-- Hamburger menu button - always visible -->
+            <button id="hamburger-btn" class="p-2 rounded-lg button-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu">
+                    <line x1="4" x2="20" y1="12" y2="12"></line>
+                    <line x1="4" x2="20" y1="6" y2="6"></line>
+                    <line x1="4" x2="20" y1="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <!-- Desktop navigation links - always hidden -->
+            <div class="hidden">
                 <button id="home-btn" class="nav-link-light flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-300 active">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                     <span>Home</span>
@@ -124,9 +233,32 @@
         </nav>
     </header>
 
+    <div id="mobile-menu-overlay"></div>
+
+    <div id="mobile-menu" class="light-theme mobile-menu-light">
+        <button id="mobile-home-btn" class="mobile-nav-link mobile-nav-link-light active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home</span>
+        </button>
+        <button id="mobile-login-logout-btn" class="mobile-nav-link mobile-nav-link-light">
+            <svg id="mobile-login-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+            <svg id="mobile-logout-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="17 16 22 12 17 8"/><line x1="22" x2="11" y1="12" y2="12"/></svg>
+            <span id="mobile-login-logout-text">Login</span>
+        </button>
+        <button id="mobile-forum-btn" class="mobile-nav-link mobile-nav-link-light">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span>Forum</span>
+        </button>
+        <button id="mobile-theme-toggle-btn" class="mobile-nav-link mobile-nav-link-light">
+            <svg id="mobile-moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            <svg id="mobile-sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.93 19.07l1.41-1.41"/><path d="M17.66 6.34l1.41-1.41"/></svg>
+            <span>Cambia Tema</span>
+        </button>
+    </div>
+
     <main id="main-content" class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
         <div id="home-page" class="p-8 rounded-lg shadow-lg max-w-2xl text-center card-light">
-            <h1 class="text-4xl font-bold mb-4">Benvenuto su Puglia RP 🇮🇹 </h1>
+            <h1 class="text-4xl font-bold mb-4">Benvenuto su Puglia RP</h1>
             <p class="text-lg mb-6">
                 Il tuo server Discord di Emergency Hamburg Roleplay! Unisciti alla nostra comunità e vivi avventure emozionanti.
             </p>
@@ -167,19 +299,33 @@
 
     <script>
         const body = document.body;
-        const homeBtn = document.getElementById('home-btn');
-        const loginLogoutBtn = document.getElementById('login-logout-btn');
-        const forumBtn = document.getElementById('forum-btn');
-        const themeToggleBtn = document.getElementById('theme-toggle-btn');
-        const moonIcon = document.getElementById('moon-icon');
-        const sunIcon = document.getElementById('sun-icon');
-        const loginIcon = document.getElementById('login-icon');
-        const logoutIcon = document.getElementById('logout-icon');
-        const loginLogoutText = document.getElementById('login-logout-text');
+        const homeBtn = document.getElementById('home-btn'); // Desktop home button (now hidden)
+        const loginLogoutBtn = document.getElementById('login-logout-btn'); // Desktop login/logout button (now hidden)
+        const forumBtn = document.getElementById('forum-btn'); // Desktop forum button (now hidden)
+        const themeToggleBtn = document.getElementById('theme-toggle-btn'); // Desktop theme toggle (now hidden)
+        const moonIcon = document.getElementById('moon-icon'); // Desktop moon icon (now hidden)
+        const sunIcon = document.getElementById('sun-icon'); // Desktop sun icon (now hidden)
+        const loginIcon = document.getElementById('login-icon'); // Desktop login icon (now hidden)
+        const logoutIcon = document.getElementById('logout-icon'); // Desktop logout icon (now hidden)
+        const loginLogoutText = document.getElementById('login-logout-text'); // Desktop login/logout text (now hidden)
         const loginLogoutActionBtn = document.getElementById('login-logout-action-btn');
         const loginPageTitle = document.getElementById('login-page-title');
         const loginPageText = document.getElementById('login-page-text');
         const userIdDisplay = document.getElementById('user-id-display');
+
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const mobileHomeBtn = document.getElementById('mobile-home-btn');
+        const mobileLoginLogoutBtn = document.getElementById('mobile-login-logout-btn');
+        const mobileForumBtn = document.getElementById('mobile-forum-btn');
+        const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle-btn');
+        const mobileMoonIcon = document.getElementById('mobile-moon-icon');
+        const mobileSunIcon = document.getElementById('mobile-sun-icon');
+        const mobileLoginIcon = document.getElementById('mobile-login-icon');
+        const mobileLogoutIcon = document.getElementById('mobile-logout-icon');
+        const mobileLoginLogoutText = document.getElementById('mobile-login-logout-text');
+
 
         const homePage = document.getElementById('home-page');
         const loginPage = document.getElementById('login-page');
@@ -191,11 +337,15 @@
 
         function updateThemeClasses() {
             body.classList.remove('light-theme', 'dark-theme');
-            homeBtn.classList.remove('nav-link-light', 'nav-link-dark');
-            loginLogoutBtn.classList.remove('nav-link-light', 'nav-link-dark');
-            forumBtn.classList.remove('nav-link-light', 'nav-link-dark');
-            themeToggleBtn.classList.remove('button-light', 'button-dark');
             loginLogoutActionBtn.classList.remove('blue-button-light', 'blue-button-dark');
+
+            mobileMenu.classList.remove('mobile-menu-light', 'mobile-menu-dark');
+            mobileHomeBtn.classList.remove('mobile-nav-link-light', 'mobile-nav-link-dark');
+            mobileLoginLogoutBtn.classList.remove('mobile-nav-link-light', 'mobile-nav-link-dark');
+            mobileForumBtn.classList.remove('mobile-nav-link-light', 'mobile-nav-link-dark');
+            mobileThemeToggleBtn.classList.remove('mobile-nav-link-light', 'mobile-nav-link-dark');
+            hamburgerBtn.classList.remove('button-light', 'button-dark');
+
 
             document.querySelector('header').classList.remove('header-light', 'header-dark');
             homePage.classList.remove('card-light', 'card-dark');
@@ -204,11 +354,14 @@
 
             if (currentTheme === 'light') {
                 body.classList.add('light-theme');
-                homeBtn.classList.add('nav-link-light');
-                loginLogoutBtn.classList.add('nav-link-light');
-                forumBtn.classList.add('nav-link-light');
-                themeToggleBtn.classList.add('button-light');
                 loginLogoutActionBtn.classList.add('blue-button-light');
+                hamburgerBtn.classList.add('button-light');
+
+                mobileMenu.classList.add('mobile-menu-light');
+                mobileHomeBtn.classList.add('mobile-nav-link-light');
+                mobileLoginLogoutBtn.classList.add('mobile-nav-link-light');
+                mobileForumBtn.classList.add('mobile-nav-link-light');
+                mobileThemeToggleBtn.classList.add('mobile-nav-link-light');
 
                 document.querySelector('header').classList.add('header-light');
                 homePage.classList.add('card-light');
@@ -216,11 +369,14 @@
                 forumPage.classList.add('card-light');
             } else {
                 body.classList.add('dark-theme');
-                homeBtn.classList.add('nav-link-dark');
-                loginLogoutBtn.classList.add('nav-link-dark');
-                forumBtn.classList.add('nav-link-dark');
-                themeToggleBtn.classList.add('button-dark');
                 loginLogoutActionBtn.classList.add('blue-button-dark');
+                hamburgerBtn.classList.add('button-dark');
+
+                mobileMenu.classList.add('mobile-menu-dark');
+                mobileHomeBtn.classList.add('mobile-nav-link-dark');
+                mobileLoginLogoutBtn.classList.add('mobile-nav-link-dark');
+                mobileForumBtn.classList.add('mobile-nav-link-dark');
+                mobileThemeToggleBtn.classList.add('mobile-nav-link-dark');
 
                 document.querySelector('header').classList.add('header-dark');
                 homePage.classList.add('card-dark');
@@ -229,6 +385,7 @@
             }
 
             updateActiveNavLink();
+            updateMobileThemeToggleIcon();
         }
 
         function toggleTheme() {
@@ -236,11 +393,25 @@
             if (currentTheme === 'dark') {
                 moonIcon.classList.add('hidden');
                 sunIcon.classList.remove('hidden');
+                mobileMoonIcon.classList.add('hidden');
+                mobileSunIcon.classList.remove('hidden');
             } else {
                 moonIcon.classList.remove('hidden');
                 sunIcon.classList.add('hidden');
+                mobileMoonIcon.classList.remove('hidden');
+                mobileSunIcon.classList.add('hidden');
             }
             updateThemeClasses();
+        }
+
+        function updateMobileThemeToggleIcon() {
+            if (currentTheme === 'dark') {
+                mobileMoonIcon.classList.add('hidden');
+                mobileSunIcon.classList.remove('hidden');
+            } else {
+                mobileMoonIcon.classList.remove('hidden');
+                mobileSunIcon.classList.add('hidden');
+            }
         }
 
         function updateLoginState() {
@@ -253,6 +424,10 @@
                 loginPageText.textContent = `Sei connesso. ID Utente: ${simulatedUserId}`;
                 userIdDisplay.textContent = `Il tuo ID utente: ${simulatedUserId}`;
                 userIdDisplay.classList.remove('hidden');
+
+                mobileLoginIcon.classList.add('hidden');
+                mobileLogoutIcon.classList.remove('hidden');
+                mobileLoginLogoutText.textContent = 'Logout';
             } else {
                 loginIcon.classList.remove('hidden');
                 logoutIcon.classList.add('hidden');
@@ -261,6 +436,10 @@
                 loginPageTitle.textContent = 'Accedi';
                 loginPageText.textContent = 'Accedi per sbloccare funzionalità esclusive del sito.';
                 userIdDisplay.classList.add('hidden');
+
+                mobileLoginIcon.classList.remove('hidden');
+                mobileLogoutIcon.classList.add('hidden');
+                mobileLoginLogoutText.textContent = 'Login';
             }
             loginLogoutActionBtn.className = `px-6 py-3 rounded-lg font-semibold text-lg transition-colors duration-300 ${currentTheme === 'light' ? 'blue-button-light' : 'blue-button-dark'}`;
         }
@@ -275,6 +454,16 @@
             updateLoginState();
         }
 
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            mobileMenuOverlay.classList.remove('open');
+        }
+
+        function openMobileMenu() {
+            mobileMenu.classList.add('open');
+            mobileMenuOverlay.classList.add('open');
+        }
+
         function showPage(pageId) {
             homePage.classList.add('hidden');
             loginPage.classList.add('hidden');
@@ -283,40 +472,44 @@
             document.getElementById(pageId).classList.remove('hidden');
 
             updateActiveNavLink();
+            closeMobileMenu();
         }
 
         function updateActiveNavLink() {
-            const navButtons = [homeBtn, loginLogoutBtn, forumBtn];
-            navButtons.forEach(button => {
+            const mobileNavButtons = [mobileHomeBtn, mobileLoginLogoutBtn, mobileForumBtn];
+
+            mobileNavButtons.forEach(button => {
                 button.classList.remove('active');
                 if (currentTheme === 'light') {
-                    button.classList.add('nav-link-light');
-                    button.classList.remove('nav-link-dark');
+                    button.classList.add('mobile-nav-link-light');
+                    button.classList.remove('mobile-nav-link-dark');
                 } else {
-                    button.classList.add('nav-link-dark');
-                    button.classList.remove('nav-link-light');
+                    button.classList.add('mobile-nav-link-dark');
+                    button.classList.remove('mobile-nav-link-light');
                 }
             });
 
-            let activePageId;
             if (!homePage.classList.contains('hidden')) {
-                activePageId = 'home-btn';
+                mobileHomeBtn.classList.add('active');
             } else if (!loginPage.classList.contains('hidden')) {
-                activePageId = 'login-logout-btn';
+                mobileLoginLogoutBtn.classList.add('active');
             } else if (!forumPage.classList.contains('hidden')) {
-                activePageId = 'forum-btn';
-            }
-
-            if (activePageId) {
-                document.getElementById(activePageId).classList.add('active');
+                mobileForumBtn.classList.add('active');
             }
         }
 
-        homeBtn.addEventListener('click', () => showPage('home-page'));
-        loginLogoutBtn.addEventListener('click', () => showPage('login-page'));
-        forumBtn.addEventListener('click', () => showPage('forum-page'));
-        themeToggleBtn.addEventListener('click', toggleTheme);
+        hamburgerBtn.addEventListener('click', openMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        mobileHomeBtn.addEventListener('click', () => showPage('home-page'));
+        mobileLoginLogoutBtn.addEventListener('click', () => {
+            showPage('login-page');
+            handleLoginLogout();
+        });
+        mobileForumBtn.addEventListener('click', () => showPage('forum-page'));
+        mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+
         loginLogoutActionBtn.addEventListener('click', handleLoginLogout);
+
 
         document.addEventListener('DOMContentLoaded', () => {
             updateThemeClasses();
