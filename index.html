@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puglia RP - Emergency Hamburg</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-overlay: rgba(255, 255, 255, 0.25);
+            --light-header-bg: rgba(255, 255, 255, 0.8);
+            --light-card-bg: rgba(255, 255, 255, 0.85);
+            --light-text: #333333;
+            --light-nav-hover-bg: rgba(224, 224, 224, 0.8);
+            --light-nav-active-bg: rgba(208, 208, 208, 0.8);
+            --light-button-bg: rgba(224, 224, 224, 0.8);
+            --light-button-hover-bg: rgba(208, 208, 208, 0.8);
+            --light-blue-button-bg: #3B82F6;
+            --light-blue-button-hover-bg: #2563EB;
+        }
+
+        .dark-theme {
+            --dark-header-bg: rgba(26, 26, 26, 0.8);
+            --dark-card-bg: rgba(58, 58, 58, 0.85);
+            --dark-text: #E0E0E0;
+            --dark-nav-hover-bg: rgba(74, 74, 74, 0.8);
+            --dark-nav-active-bg: rgba(90, 90, 90, 0.8);
+            --dark-button-bg: rgba(74, 74, 74, 0.8);
+            --dark-button-hover-bg: rgba(90, 90, 90, 0.8);
+            --dark-blue-button-bg: #60A5FA;
+            --dark-blue-button-hover-bg: #3B82F6;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Color Emoji', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            background-image: url('https://placehold.co/1200x800/6aa6b9/000000?text=Puglia+RP+imagine+esempio+da+cambiare');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px);
+            z-index: -1;
+            background-color: var(--bg-overlay);
+        }
+
+        .header-light {
+            background-color: var(--light-header-bg);
+        }
+        .header-dark {
+            background-color: var(--dark-header-bg);
+        }
+
+        .card-light {
+            background-color: var(--light-card-bg);
+        }
+        .card-dark {
+            background-color: var(--dark-card-bg);
+        }
+        body.light-theme, .nav-link-light, .button-light {
+            color: var(--light-text);
+        }
+        body.dark-theme, .nav-link-dark, .button-dark {
+            color: var(--dark-text);
+        }
+
+        .nav-link-light, .nav-link-dark {
+            position: relative;
+            overflow: hidden;
+            padding-bottom: 4px;
+        }
+
+        .nav-link-light::after, .nav-link-dark::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #6aa6b9;
+            transition: width 0.3s ease-in-out;
+        }
+
+        .nav-link-light:hover::after, .nav-link-dark:hover::after,
+        .nav-link-light.active::after, .nav-link-dark.active::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col light-theme">
+
+    <header class="py-4 shadow-md header-light">
+        <nav class="container mx-auto px-4 flex justify-between items-center">
+            <div class="text-2xl font-bold">🇮🇹 Puglia RP 🇮🇹</div>
+            <div class="flex space-x-4">
+                <button id="home-btn" class="nav-link-light flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-300 active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <span>Home</span>
+                </button>
+                <button id="login-logout-btn" class="nav-link-light flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-300">
+                    <svg id="login-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                    <svg id="logout-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out hidden"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="17 16 22 12 17 8"/><line x1="22" x2="11" y1="12" y2="12"/></svg>
+                    <span id="login-logout-text">Login</span>
+                </button>
+                <button id="forum-btn" class="nav-link-light flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span>Forum</span>
+                </button>
+                <button id="theme-toggle-btn" class="button-light px-4 py-2 rounded-lg transition-colors duration-300">
+                    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.93 4.93l1.41 1.41"/><path d="M17.66 17.66l1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.93 19.07l1.41-1.41"/><path d="M17.66 6.34l1.41-1.41"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content" class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+        <div id="home-page" class="p-8 rounded-lg shadow-lg max-w-2xl text-center card-light">
+            <h1 class="text-4xl font-bold mb-4">Benvenuto su Puglia RP 🇮🇹 </h1>
+            <p class="text-lg mb-6">
+                Il tuo server Discord di Emergency Hamburg Roleplay! Unisciti alla nostra comunità e vivi avventure emozionanti.
+            </p>
+            <a
+                href="https://discord.gg/Hg5d3GzBj3"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-lg transition-colors duration-300 blue-button-light"
+            >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.72,4.05A2.78,2.78,0,0,0,17,2H7A2.78,2.78,0,0,0,4.28,4.05,2.78,2.78,0,0,0,4,20a2.78,2.78,0,0,0,2.78,2.78H17A2.78,2.78,0,0,0,19.72,20,2.78,2.78,0,0,0,20,4.05ZM8.5,15.25a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,8.5,15.25Zm7,0a1.5,1.5,0,1,1,1.5-1.5A1.5,1.5,0,0,1,15.5,15.25Zm-7-4.5h7a1,1,0,0,1,0,2h-7a1,1,0,0,1,0-2Z"/>
+                </svg>
+                <span>Unisciti al Discord</span>
+            </a>
+        </div>
+
+        <div id="login-page" class="p-8 rounded-lg shadow-lg max-w-2xl text-center card-light hidden">
+            <h1 class="text-4xl font-bold mb-4" id="login-page-title">Accedi</h1>
+            <p class="text-lg mb-6" id="login-page-text">
+                Accedi per sbloccare funzionalità esclusive del sito.
+            </p>
+            <button id="login-logout-action-btn" class="px-6 py-3 rounded-lg font-semibold text-lg transition-colors duration-300 blue-button-light">
+                Accedi
+            </button>
+            <p id="user-id-display" class="mt-4 text-sm hidden"></p>
+        </div>
+
+        <div id="forum-page" class="p-8 rounded-lg shadow-lg max-w-2xl text-center card-light hidden">
+            <h1 class="text-4xl font-bold mb-4">Forum</h1>
+            <p class="text-lg mb-6">
+                Benvenuto nel forum di Puglia RP! Qui puoi discutere, condividere idee e interagire con la comunità.
+            </p>
+            <p class="text-md">
+                (Questa è una pagina di esempio. Il forum sarà integrato in futuro.)
+            </p>
+        </div>
+    </main>
+
+    <script>
+        const body = document.body;
+        const homeBtn = document.getElementById('home-btn');
+        const loginLogoutBtn = document.getElementById('login-logout-btn');
+        const forumBtn = document.getElementById('forum-btn');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        const loginIcon = document.getElementById('login-icon');
+        const logoutIcon = document.getElementById('logout-icon');
+        const loginLogoutText = document.getElementById('login-logout-text');
+        const loginLogoutActionBtn = document.getElementById('login-logout-action-btn');
+        const loginPageTitle = document.getElementById('login-page-title');
+        const loginPageText = document.getElementById('login-page-text');
+        const userIdDisplay = document.getElementById('user-id-display');
+
+        const homePage = document.getElementById('home-page');
+        const loginPage = document.getElementById('login-page');
+        const forumPage = document.getElementById('forum-page');
+
+        let currentTheme = 'light';
+        let isLoggedIn = false;
+        let simulatedUserId = null;
+
+        function updateThemeClasses() {
+            body.classList.remove('light-theme', 'dark-theme');
+            homeBtn.classList.remove('nav-link-light', 'nav-link-dark');
+            loginLogoutBtn.classList.remove('nav-link-light', 'nav-link-dark');
+            forumBtn.classList.remove('nav-link-light', 'nav-link-dark');
+            themeToggleBtn.classList.remove('button-light', 'button-dark');
+            loginLogoutActionBtn.classList.remove('blue-button-light', 'blue-button-dark');
+
+            document.querySelector('header').classList.remove('header-light', 'header-dark');
+            homePage.classList.remove('card-light', 'card-dark');
+            loginPage.classList.remove('card-light', 'card-dark');
+            forumPage.classList.remove('card-light', 'card-dark');
+
+            if (currentTheme === 'light') {
+                body.classList.add('light-theme');
+                homeBtn.classList.add('nav-link-light');
+                loginLogoutBtn.classList.add('nav-link-light');
+                forumBtn.classList.add('nav-link-light');
+                themeToggleBtn.classList.add('button-light');
+                loginLogoutActionBtn.classList.add('blue-button-light');
+
+                document.querySelector('header').classList.add('header-light');
+                homePage.classList.add('card-light');
+                loginPage.classList.add('card-light');
+                forumPage.classList.add('card-light');
+            } else {
+                body.classList.add('dark-theme');
+                homeBtn.classList.add('nav-link-dark');
+                loginLogoutBtn.classList.add('nav-link-dark');
+                forumBtn.classList.add('nav-link-dark');
+                themeToggleBtn.classList.add('button-dark');
+                loginLogoutActionBtn.classList.add('blue-button-dark');
+
+                document.querySelector('header').classList.add('header-dark');
+                homePage.classList.add('card-dark');
+                loginPage.classList.add('card-dark');
+                forumPage.classList.add('card-dark');
+            }
+
+            updateActiveNavLink();
+        }
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            if (currentTheme === 'dark') {
+                moonIcon.classList.add('hidden');
+                sunIcon.classList.remove('hidden');
+            } else {
+                moonIcon.classList.remove('hidden');
+                sunIcon.classList.add('hidden');
+            }
+            updateThemeClasses();
+        }
+
+        function updateLoginState() {
+            if (isLoggedIn) {
+                loginIcon.classList.add('hidden');
+                logoutIcon.classList.remove('hidden');
+                loginLogoutText.textContent = 'Logout';
+                loginLogoutActionBtn.textContent = 'Disconnetti';
+                loginPageTitle.textContent = 'Benvenuto!';
+                loginPageText.textContent = `Sei connesso. ID Utente: ${simulatedUserId}`;
+                userIdDisplay.textContent = `Il tuo ID utente: ${simulatedUserId}`;
+                userIdDisplay.classList.remove('hidden');
+            } else {
+                loginIcon.classList.remove('hidden');
+                logoutIcon.classList.add('hidden');
+                loginLogoutText.textContent = 'Login';
+                loginLogoutActionBtn.textContent = 'Accedi';
+                loginPageTitle.textContent = 'Accedi';
+                loginPageText.textContent = 'Accedi per sbloccare funzionalità esclusive del sito.';
+                userIdDisplay.classList.add('hidden');
+            }
+            loginLogoutActionBtn.className = `px-6 py-3 rounded-lg font-semibold text-lg transition-colors duration-300 ${currentTheme === 'light' ? 'blue-button-light' : 'blue-button-dark'}`;
+        }
+
+        function handleLoginLogout() {
+            isLoggedIn = !isLoggedIn;
+            if (isLoggedIn) {
+                simulatedUserId = 'simulated-user-' + Math.random().toString(36).substring(2, 11);
+            } else {
+                simulatedUserId = null;
+            }
+            updateLoginState();
+        }
+
+        function showPage(pageId) {
+            homePage.classList.add('hidden');
+            loginPage.classList.add('hidden');
+            forumPage.classList.add('hidden');
+
+            document.getElementById(pageId).classList.remove('hidden');
+
+            updateActiveNavLink();
+        }
+
+        function updateActiveNavLink() {
+            const navButtons = [homeBtn, loginLogoutBtn, forumBtn];
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+                if (currentTheme === 'light') {
+                    button.classList.add('nav-link-light');
+                    button.classList.remove('nav-link-dark');
+                } else {
+                    button.classList.add('nav-link-dark');
+                    button.classList.remove('nav-link-light');
+                }
+            });
+
+            let activePageId;
+            if (!homePage.classList.contains('hidden')) {
+                activePageId = 'home-btn';
+            } else if (!loginPage.classList.contains('hidden')) {
+                activePageId = 'login-logout-btn';
+            } else if (!forumPage.classList.contains('hidden')) {
+                activePageId = 'forum-btn';
+            }
+
+            if (activePageId) {
+                document.getElementById(activePageId).classList.add('active');
+            }
+        }
+
+        homeBtn.addEventListener('click', () => showPage('home-page'));
+        loginLogoutBtn.addEventListener('click', () => showPage('login-page'));
+        forumBtn.addEventListener('click', () => showPage('forum-page'));
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        loginLogoutActionBtn.addEventListener('click', handleLoginLogout);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateThemeClasses();
+            updateLoginState();
+            showPage('home-page');
+        });
+    </script>
+</body>
+</html>
